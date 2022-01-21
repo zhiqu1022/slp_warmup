@@ -1,0 +1,38 @@
+This is the report of perceptron model by Zhi Qu.
+
+No obvious disadvantage about this work.
+
+1. Result:
+    acc = 91.4%
+
+2. Features:
+    2.1 Main feature: 3-gram
+    2.2 Word Substitution
+    word with capital, just like "Capital", replaced with <Capital>
+    word with all capital, just like "SUPPER", replaced with <SUPPER>
+    word of pure number, just like "1997", replaced with <digit>
+    word of connect-word, just like "re-start", replaced with <connect>
+    (maybe spliting to "re" and "start" will have a better result)
+    word whose frequency < 2, replaced with <UNK>
+
+3. Logic of codes:
+    3.1 read train_list
+    3.2 clean train_list
+    3.3 acquire the frequency of unique word in this corpus
+    3.4 clean train_list by replacing low-frequency word with <UNK>
+    3.5 initialize weights of 3-gram combinations to 0
+    3.6 training:
+         if one sentence label = 1, all weights of this sentence + 1
+         if one sentence label = -1, all weights of this sentence - 1
+    3.7 log scaling (or say log standardization)
+         One problem is some weights could be excessively higher or lower.
+         So, we need to scale all weights to be smoother.
+         weight = (-) log_10(abs(weight ))
+         it can improve 5%+ of acc.
+    3.8 testing
+         set unseen word as <UNK> in testing
+    3.9 unknow 3-gram in testing
+         Although we have 3.8, the 3-gram combination could be still unseen.
+         Set its scores as -1.
+         it can improve 1%+ of acc.
+             
